@@ -1,4 +1,4 @@
-# PhenomeTranslator
+# PhonemeTranslator
 A tool for measuring words based on their phonetic "harshness"
 
 # SET UP
