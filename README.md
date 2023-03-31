@@ -23,5 +23,6 @@ A tool for measuring words based on their phonetic "harshness". The user provide
   2. lang is an ISO 639-3 language code from https://en.wikipedia.org/wiki/ISO_639-3 . Note that some words in some languages will not have a corresponding IPA       translation found online, and thus won't be found in the output. You can find a list of all non-outputted words in the terminal (if any exist).
   3. To run the test files, you can run:
         python translator.py eng map.xlsx input.xlsx output.xlsx
- 
+
+WIKIPRON CITATION:
 Jackson L. Lee, Lucas F.E. Ashby, M. Elizabeth Garza, Yeonju Lee-Sikka, Sean Miller, Alan Wong, Arya D. McCarthy, and Kyle Gorman (2020). Massively multilingual pronunciation mining with WikiPron. In Proceedings of the 12th Language Resources and Evaluation Conference, pages 4223-4228. [bibtex]
