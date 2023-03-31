@@ -6,5 +6,6 @@ A tool for measuring words based on their phonetic "harshness"
   2. Ensure you have Python downloaded by running python --version in your terminal.
   3. In your terminal, run this line:
         pip install -r requirements.txt
-  4. Once 
+     This will ensure python has all of the necessary libraries used in the program
+  4. 
     
