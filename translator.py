@@ -143,7 +143,7 @@ if __name__ == "__main__":
         problem_words = produce_output(wrksht)
         wrkbk.close()
     except Exception as e:
-        print('[ERROR] An error occured while reading output file')
+        print('[ERROR] An error occured while reading output file ' + output_file + "\n")
         print(e)
         sys.exit(1)
     
