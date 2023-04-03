@@ -14,9 +14,16 @@ on:
         required: true
       map:
         description: 'File For Phonetic Mapping'
+        default: 'map.xlsx'
         required: true
-        type: environment
-      
+      in:
+        description: 'File With List Of Words'
+        default: 'input.xlsx'
+        required: true
+      out:
+        description: 'Empty Output File'
+        default: 'output.xlsx'
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,6 +41,6 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run a Script
-        run: python translator.py ${{ github.event.inputs.lang }}
+        run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
 
     
