@@ -37,8 +37,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
-      - name: Download Requirements
-        run: pip install -r requirements.txt
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: translator.py
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
 
       - name: Run a Script
         run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
