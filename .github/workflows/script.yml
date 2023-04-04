@@ -38,12 +38,7 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: Download Requirements
-      - uses: actions/setup-python@v3
-        with:
-           python-version: '3.9'
-           cache: 'pip'
-      - run: pip install -r requirements.txt
-      - run: pip test
+        run: pip install -r requirements.txt
 
       - name: Run a Script
         run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
