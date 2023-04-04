@@ -43,6 +43,7 @@ jobs:
       - name: Run a Script
         run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
         
+          cd .
           git add .
           git config user.name github-actions
           git config user.email github-actions@github.com
