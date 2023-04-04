@@ -42,5 +42,12 @@ jobs:
 
       - name: Run a Script
         run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
+        
+      - name: commit changed files
+        run: git commit -m "Updating Output File"
+      - name: fetch from master
+        run: git fetch origin master
+      - name: push code to master
+        run: git push origin .
 
     
