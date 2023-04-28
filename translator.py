@@ -58,6 +58,8 @@ def get_ipa_wikipron(word):
 
 # gets the ipa translation of a word from the Carnegie-Mellon University Dictionary
 def get_ipa_cmu(word):
+    if not ipa.isin_cmu(word):
+        return None
     return ipa.convert(word)
 
 def produce_output(wrksht):
