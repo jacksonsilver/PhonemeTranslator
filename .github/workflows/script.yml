@@ -8,10 +8,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      lang:
-        description: 'Language'
-        default: 'eng'
-        required: true
       map:
         description: 'File For Phonetic Mapping'
         default: 'map.xlsx'
@@ -48,7 +44,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run a Script
-        run: python translator.py ${{ github.event.inputs.lang }} ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
+        run: python translator.py ${{ github.event.inputs.map }} ${{ github.event.inputs.in }} ${{ github.event.inputs.out }}
         
       - name: Push Changes
         run: |    
