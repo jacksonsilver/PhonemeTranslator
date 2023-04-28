@@ -3,10 +3,12 @@ import sys
 import openpyxl
 import xlsxwriter
 
-import wikipron
-from wikipron.scrape import _PAGE_TEMPLATE, HTTP_HEADERS
-import requests_html
-import requests
+# import wikipron
+# from wikipron.scrape import _PAGE_TEMPLATE, HTTP_HEADERS
+# import requests_html
+# import requests
+
+import eng_to_ipa as ipa
 
 global word_dict
 global words
@@ -44,7 +46,7 @@ def get_words(sh):
 
 # gets the ipa translation of a word from wiktionary
 # user must be connected to the internet
-def get_ipa(word):
+def get_ipa_wikipron(word):
     html_session = requests_html.HTMLSession()
     response = html_session.get(
         _PAGE_TEMPLATE.format(word=word), headers=HTTP_HEADERS
@@ -53,6 +55,10 @@ def get_ipa(word):
     v = config.extract_word_pron(word, response, config)
     for w, pron in v:
         return pron.replace(' ', '')
+
+# gets the ipa translation of a word from the Carnegie-Mellon University Dictionary
+def get_ipa_cmu(word):
+    return ipa.convert(word)
 
 def produce_output(wrksht):
     issues = []
@@ -73,7 +79,7 @@ def produce_output(wrksht):
     column = 0
 
     for word in words:
-        ipa = get_ipa(word)
+        ipa = get_ipa_cmu(word)
         if(ipa == None):
             issues.append(word)
             continue
@@ -97,21 +103,21 @@ def produce_output(wrksht):
     return issues
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print('[ERROR] An ISO 639-3 language code must be provided (e.g., "eng" for English).')
-        sys.exit(1)  
-    try:
-        lang = sys.argv[1]
-        config = wikipron.Config(key=lang, skip_spaces_pron=False)  
-    except:
-        print("[ERROR] Invalid ISO 639-3 language code: " + lang)
-        sys.exit(1)
+    # if len(sys.argv) < 2:
+    #     print('[ERROR] An ISO 639-3 language code must be provided (e.g., "eng" for English).')
+    #     sys.exit(1)  
+    # try:
+    #     lang = sys.argv[1]
+    #     config = wikipron.Config(key=lang, skip_spaces_pron=False)  
+    # except:
+    #     print("[ERROR] Invalid ISO 639-3 language code: " + lang)
+    #     sys.exit(1)
 
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 2:
         print('[ERROR] A file for phonetic mapping must be provided')
         sys.exit(1) 
     try:
-        map_file = sys.argv[2]
+        map_file = sys.argv[1]
         wrkbk = openpyxl.load_workbook(map_file)
         sh = wrkbk.active
         word_dict = create_map(sh.iter_rows(min_row=0, min_col=0, max_row=50000, max_col=2))
@@ -120,11 +126,11 @@ if __name__ == "__main__":
         print(e)
         sys.exit(1)
 
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         print('[ERROR] A file for words must be provided')
         sys.exit(1)
     try:
-        input_file = sys.argv[3]
+        input_file = sys.argv[2]
         wrkbk = openpyxl.load_workbook(input_file)
         sh = wrkbk.active
         words = get_words(sh.iter_rows(min_row=0, min_col=0, max_row=50000, max_col=1))
@@ -133,11 +139,11 @@ if __name__ == "__main__":
         print(e)
         sys.exit(1)
     
-    if len(sys.argv) < 5:
+    if len(sys.argv) < 4:
         print('[ERROR] An empty output file must be provided.')
         sys.exit(1)
     try:
-        output_file = sys.argv[4]
+        output_file = sys.argv[3]
         wrkbk = xlsxwriter.Workbook(output_file)
         wrksht = wrkbk.add_worksheet()
         problem_words = produce_output(wrksht)
